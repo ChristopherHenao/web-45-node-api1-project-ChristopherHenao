@@ -17,8 +17,19 @@ server.get('/api/users', (req, res) => {
     })
 })
 
-server.get('/api/users/:id', (req, res) => {
-    res.json('the get ID is working')
+server.get('/api/users/:id', async (req, res) => {
+    const user = await Users.findById(req.params.id)
+    try {
+        if (!user) {
+            res.status(404).json({ message: "The user with the specified ID does not exist" })
+        }
+        else {
+            res.json(user)
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: "The user information could not be retrieved" })
+    }
 })
 
 server.post('/api/users', (req, res) => {
