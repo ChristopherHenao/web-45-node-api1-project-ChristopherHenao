@@ -8,7 +8,13 @@ server.use(express.json())
 
 // Endpoints
 server.get('/api/users', (req, res) => {
-    res.json({ message: 'hey there MP'})
+    Users.find()
+    .then(users => {
+        res.json(users)
+    })
+    .catch(error => {
+        res.status(500).json({ message: "The users information could not be retrieved" })
+    })
 })
 
 server.get('/api/users/:id', (req, res) => {
